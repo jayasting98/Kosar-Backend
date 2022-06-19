@@ -6,4 +6,4 @@ v1.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-exports.v1 = v1;
+module.exports = v1;
