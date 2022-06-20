@@ -28,7 +28,7 @@ exports.createPost = async (req, res) => {
   const output = {
     postId: postRow.uuid,
     message: postRow.message,
-    dateTimeCreated: postRow.datetime_created
+    dateTimeCreated: postRow.datetime_created,
   };
   res.status(201)
       .json(output);
