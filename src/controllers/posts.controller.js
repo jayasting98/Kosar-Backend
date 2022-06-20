@@ -1,4 +1,4 @@
-const db = require("../services/db.service");
+const db = require('../services/db.service');
 
 const CREATE_POST_SQL_TEMPLATE =
 `INSERT INTO posts (
@@ -21,16 +21,17 @@ exports.createPost = async (req, res) => {
   try {
     result = await db.query(CREATE_POST_SQL_TEMPLATE, [message]);
   } catch (err) {
-    res.status(500).end();
+    res.status(500)
+        .end();
   }
   const postRow = result.rows[0];
   const output = {
     postId: postRow.uuid,
     message: postRow.message,
-    dateTimeCreated: postRow.datetime_created
+    dateTimeCreated: postRow.datetime_created,
   };
   res.status(201)
-    .json(output);
+      .json(output);
 };
 
 exports.getPosts = async (req, res) => {

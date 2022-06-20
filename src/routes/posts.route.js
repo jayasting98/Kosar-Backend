@@ -1,11 +1,11 @@
-const postsController = require("../controllers/posts.controller");
+const postsController = require('../controllers/posts.controller');
 
-const { Router } = require("express");
+const {Router} = require('express');
 
-const router = Router();
+const router = new Router();
 
-router.post("/", postsController.createPost);
+router.post('/', postsController.createPost);
 
-router.get("/", postsController.getPosts);
+router.get('/', postsController.getPosts);
 
 module.exports = router;
