@@ -1,4 +1,4 @@
-const db = require("../services/db.service");
+const db = require('../services/db.service');
 
 const CREATE_POST_SQL_TEMPLATE =
 `INSERT INTO posts (
