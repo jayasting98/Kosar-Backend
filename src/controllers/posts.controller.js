@@ -9,11 +9,19 @@ const CREATE_POST_SQL_TEMPLATE =
 
 const GET_POSTS_SQL =
 `SELECT
-  p.uuid AS "postId",
-  p.message AS "message",
-  p.datetime_created AS "dateTimeCreated"
+  p.uuid,
+  p.message,
+  p.datetime_created
 FROM
   posts p;`;
+
+const convertPostRowToPost = (postRow) => {
+  return {
+    postId: postRow.uuid,
+    message: postRow.message,
+    dateTimeCreated: postRow.datetime_created,
+  };
+};
 
 exports.createPost = async (req, res) => {
   const message = req.body.message;
@@ -25,11 +33,7 @@ exports.createPost = async (req, res) => {
         .end();
   }
   const postRow = result.rows[0];
-  const output = {
-    postId: postRow.uuid,
-    message: postRow.message,
-    dateTimeCreated: postRow.datetime_created,
-  };
+  const output = convertPostRowToPost(postRow);
   res.status(201)
       .json(output);
 };
@@ -42,8 +46,10 @@ exports.getPosts = async (req, res) => {
     res.status(500)
         .end();
   }
+  const postRows = result.rows;
+  const posts = postRows.map(convertPostRowToPost);
   const output = {
-    posts: result.rows,
+    posts: posts,
   };
   res.status(200)
       .json(output);
