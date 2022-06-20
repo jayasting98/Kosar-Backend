@@ -1,5 +1,7 @@
 const db = require('../services/db.service');
 
+const idUtil = require('../utils/id.util');
+
 const CREATE_POST_SQL_TEMPLATE =
 `INSERT INTO posts (
   message
@@ -16,8 +18,9 @@ FROM
   posts p;`;
 
 const convertPostRowToPost = (postRow) => {
+  const postId = idUtil.convertFromRawId(postRow.uuid);
   return {
-    postId: postRow.uuid,
+    postId: postId,
     message: postRow.message,
     dateTimeCreated: postRow.datetime_created,
   };
