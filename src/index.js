@@ -1,3 +1,7 @@
+const {initializeApp} = require('firebase-admin/app');
+
+initializeApp();
+
 const v1 = require('./routes/v1.route');
 
 const functions = require('firebase-functions');
