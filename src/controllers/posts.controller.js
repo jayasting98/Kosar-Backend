@@ -11,18 +11,18 @@ const CREATE_POST_SQL_TEMPLATE =
 
 const GET_POSTS_SQL =
 `SELECT
-  p.uuid,
+  p.pid,
   p.message,
-  p.datetime_created
+  p.date_time_created
 FROM
   posts p;`;
 
 const convertPostRowToPost = (postRow) => {
-  const postId = idUtil.convertFromRawId(postRow.uuid);
+  const postId = idUtil.convertFromRawId(postRow.pid);
   return {
     postId: postId,
     message: postRow.message,
-    dateTimeCreated: postRow.datetime_created,
+    dateTimeCreated: postRow.date_time_created,
   };
 };
 
