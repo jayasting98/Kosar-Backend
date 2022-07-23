@@ -9,3 +9,8 @@ exports.createUser = async (uid) => {
   const userRecord = await auth.createUser(createRequest);
   return userRecord;
 };
+
+exports.generateAuthenticationToken = async (uid) => {
+  const authenticationToken = await auth.createCustomToken(uid);
+  return authenticationToken;
+};
