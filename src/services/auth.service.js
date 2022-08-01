@@ -14,3 +14,8 @@ exports.generateAuthenticationToken = async (uid) => {
   const authenticationToken = await auth.createCustomToken(uid);
   return authenticationToken;
 };
+
+exports.decodeBearerToken = async (bearerToken) => {
+  const decodedBearerToken = await auth.verifyIdToken(bearerToken);
+  return decodedBearerToken;
+};
