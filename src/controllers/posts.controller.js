@@ -1,5 +1,5 @@
 const db = require('../services/db.service');
-
+const usersService = require('../services/users.service');
 const idUtil = require('../utils/id.util');
 
 const CREATE_POST_SQL_TEMPLATE =
@@ -22,11 +22,15 @@ FROM
 
 const convertPostRowToPost = (postRow) => {
   const postId = idUtil.convertFromRawId(postRow.pid);
-  const authorUid = idUtil.convertFromRawId(postRow.author_uid);
+  const authorUserId = idUtil.convertFromRawId(postRow.author_uid);
   const post = {
     postId: postId,
     message: postRow.message,
-    authorUid: authorUid,
+    author: {
+      userId: authorUserId,
+      username: postRow.username,
+      dateTimeCreated: postRow.author_date_time_created,
+    },
     dateTimeCreated: postRow.date_time_created,
   };
   return post;
@@ -43,6 +47,10 @@ exports.createPost = async (req, res) => {
         .end();
   }
   const postRow = result.rows[0];
+  const authorUserId = idUtil.convertFromRawId(postRow.author_uid);
+  const author = await usersService.getUserWithUserId(authorUserId);
+  postRow.username = author.username;
+  postRow.author_date_time_created = author.dateTimeCreated;
   const output = convertPostRowToPost(postRow);
   res.status(201)
       .json(output);
