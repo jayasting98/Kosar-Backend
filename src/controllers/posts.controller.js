@@ -16,9 +16,13 @@ const GET_POSTS_SQL =
   p.pid,
   p.message,
   p.author_uid,
+  u.username,
+  u.date_time_created as author_date_time_created,
   p.date_time_created
 FROM
-  posts p;`;
+  posts p
+  JOIN users u ON
+    p.author_uid = u.uid;`;
 
 const convertPostRowToPost = (postRow) => {
   const postId = idUtil.convertFromRawId(postRow.pid);
