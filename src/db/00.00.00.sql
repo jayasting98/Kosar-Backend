@@ -11,7 +11,16 @@ CREATE TABLE IF NOT EXISTS posts (
     pserial BIGSERIAL PRIMARY KEY,
     pid UUID UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
     message TEXT NOT NULL,
+    author_uid UUID NOT NULL,
     date_time_created TIMESTAMP(6) WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE posts
+ADD CONSTRAINT posts_author_uid_users_uid_fkey
+FOREIGN KEY (
+    author_uid
+) REFERENCES users (
+    uid
 );
 
 CREATE TABLE IF NOT EXISTS database_versions (

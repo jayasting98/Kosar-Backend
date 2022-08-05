@@ -39,6 +39,18 @@ FROM
 WHERE
   u.email_address = $1;`;
 
+const GET_USER_WITH_USER_ID_SQL_TEMPLATE =
+`SELECT
+  u.uid,
+  u.email_address,
+  u.username,
+  u.password_hash,
+  u.date_time_created
+FROM
+  users u
+WHERE
+  u.uid = $1;`;
+
 const convertUserRowToUser = (userRow) => {
   const userId = idUtil.convertFromRawId(userRow.uid);
   const user = {
@@ -74,6 +86,15 @@ exports.getUserWithUsername = async (username) => {
 exports.getUserWithEmailAddress = async (emailAddress) => {
   const dbResult =
       await db.query(GET_USER_WITH_EMAIL_ADDRESS_SQL_TEMPLATE, [emailAddress]);
+  const userRow = dbResult.rows[0];
+  const user = convertUserRowToUser(userRow);
+  return user;
+};
+
+exports.getUserWithUserId = async (userId) => {
+  const rawUserId = idUtil.convertToRawId(userId);
+  const dbResult =
+      await db.query(GET_USER_WITH_USER_ID_SQL_TEMPLATE, [rawUserId]);
   const userRow = dbResult.rows[0];
   const user = convertUserRowToUser(userRow);
   return user;
